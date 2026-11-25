@@ -8,7 +8,7 @@ sudo apt-get install -y fontconfig openjdk-21-jre git curl wget
 
 # Jenkins LTS apt repository; if the key fails, get the current one from https://www.jenkins.io/doc/book/installing/linux/
 sudo install -m 0755 -d /etc/apt/keyrings
-sudo wget -qO /etc/apt/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+sudo wget -qO /etc/apt/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
 echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" \
     | sudo tee /etc/apt/sources.list.d/jenkins.list >/dev/null
 sudo apt-get update
