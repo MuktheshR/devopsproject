@@ -52,18 +52,10 @@ pipeline {
             }
         }
 
-        stage('Build Images') {
-            parallel {
-                stage('Backend') {
-                    steps {
-                        sh 'docker build --target runtime -t ${BACKEND_IMAGE}:${IMAGE_TAG} -t ${BACKEND_IMAGE}:latest backend'
-                    }
-                }
-                stage('Frontend') {
-                    steps {
-                        sh 'docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} -t ${FRONTEND_IMAGE}:latest frontend'
-                    }
-                }
+       stage('Build Images') {
+            steps {
+                sh 'docker build --target runtime -t ${BACKEND_IMAGE}:${IMAGE_TAG} -t ${BACKEND_IMAGE}:latest backend'
+                sh 'docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} -t ${FRONTEND_IMAGE}:latest frontend'
             }
         }
 
