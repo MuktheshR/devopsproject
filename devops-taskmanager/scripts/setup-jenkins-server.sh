@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Run on the Jenkins EC2 instance (Ubuntu 24.04): bash setup-jenkins-server.sh
 set -euo pipefail
+trap 'echo "ERROR: setup failed at line $LINENO: $BASH_COMMAND" >&2' ERR
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 sudo apt-get update
@@ -21,7 +22,20 @@ sudo usermod -aG docker jenkins
 sudo systemctl enable jenkins
 sudo systemctl restart jenkins
 
-echo
-echo "Jenkins is starting on port 8080."
-echo "Initial admin password:"
-sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+PASSWORD_FILE=/var/lib/jenkins/secrets/initialAdminPassword
+echo "Waiting for Jenkins to generate the initial admin password..."
+for _ in $(seq 1 60); do
+    sudo test -f "$PASSWORD_FILE" && break
+    sleep 3
+done
+
+if sudo test -f "$PASSWORD_FILE"; then
+    echo
+    echo "Jenkins is running on port 8080. Initial admin password:"
+    sudo cat "$PASSWORD_FILE"
+else
+    echo "Password file not found. Jenkins status and recent logs:" >&2
+    sudo systemctl status jenkins --no-pager | head -n 15 >&2
+    sudo journalctl -u jenkins -n 30 --no-pager >&2
+    exit 1
+fi
