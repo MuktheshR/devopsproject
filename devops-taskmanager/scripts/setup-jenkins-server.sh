@@ -4,6 +4,9 @@ set -euo pipefail
 trap 'echo "ERROR: setup failed at line $LINENO: $BASH_COMMAND" >&2' ERR
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+# A repo entry left by a failed run (stale key) would break the first apt-get update.
+sudo rm -f /etc/apt/sources.list.d/jenkins.list
+
 sudo apt-get update
 sudo apt-get install -y fontconfig openjdk-21-jre git curl wget
 
