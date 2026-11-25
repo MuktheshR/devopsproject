@@ -35,7 +35,7 @@ if sudo test -f "$PASSWORD_FILE"; then
     sudo cat "$PASSWORD_FILE"
 else
     echo "Password file not found. Jenkins status and recent logs:" >&2
-    sudo systemctl status jenkins --no-pager | head -n 15 >&2
-    sudo journalctl -u jenkins -n 30 --no-pager >&2
+    sudo systemctl status jenkins --no-pager | head -n 15 >&2 || true
+    sudo journalctl -u jenkins -n 30 --no-pager >&2 || true
     exit 1
 fi
