@@ -14,8 +14,8 @@ pipeline {
 
     environment {
         // TODO: replace both values before the first run.
-        DOCKERHUB_USER = 'your-dockerhub-username'
-        APP_SERVER     = 'ubuntu@<APP_EC2_PRIVATE_IP>'
+        DOCKERHUB_USER = 'muktheshvicky'
+        APP_SERVER     = 'ubuntu@172.31.14.22'
         DEPLOY_DIR     = '/opt/taskmgr'
         BACKEND_IMAGE  = "${DOCKERHUB_USER}/taskmgr-backend"
         FRONTEND_IMAGE = "${DOCKERHUB_USER}/taskmgr-frontend"
